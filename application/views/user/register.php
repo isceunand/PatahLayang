@@ -24,7 +24,7 @@
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
       <div class="container px-4">
         <a class="navbar-brand" href="<?= base_url(); ?>">
-          <img src="<?= base_url(); ?>assets/img/brand/white.png" />
+          <h3 class="text-light">Patah Layang</h3>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -35,7 +35,7 @@
             <div class="row">
               <div class="col-6 collapse-brand">
                 <a href="<?= base_url(); ?>">
-                  <img src="<?= base_url(); ?>assets/img/brand/blue.png">
+                  PATAHLAYANG
                 </a>
               </div>
               <div class="col-6 collapse-close">
@@ -70,8 +70,8 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for free.</p>
+              <h1 class="text-white">Registasi</h1>
+              <p class="text-lead text-light">Harap isi formulir dengan benar</p>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Nama lengkap" type="text" name="nama">
+                    <input class="form-control" placeholder="Nama lengkap" type="text" name="nama" value="<?= @$_POST['nama']; ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -104,7 +104,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="No KTP/SIM" type="text" name="identitas">
+                    <input class="form-control" placeholder="No KTP/SIM" type="text" name="identitas" value="<?= @$_POST['identitas']; ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -112,7 +112,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Nomor Telepon" type="text" name="nohp">
+                    <input class="form-control" placeholder="Nomor Telepon" type="text" name="nohp" value="<?= @$_POST['nohp']; ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -120,7 +120,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Username" type="text" name="username">
+                    <input class="form-control" placeholder="Username" type="text" name="username" value="<?= @$_POST['username']; ?>">
                   </div>
                 </div>
                 <div class="form-group">
@@ -128,22 +128,60 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Password" type="password" name="password">
+                    <input class="form-control" placeholder="Password" type="password" name="password1">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                    </div>
+                    <input class="form-control" placeholder="Ulangi password..." type="password" name="password2">
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="button" class="btn btn-primary mt-4" name="register">Buat Akun</button>
+                  <button type="submit" class="btn btn-primary mt-4" name="register">Buat Akun</button>
                 </div>
               </form>
               <?php
               if(isset($_POST["register"])){
-                $nama = $this->db->escape($this->input->post("nama", TRUE));
-                $identitas = $this->db->escape($this->input->post("identitas", TRUE));
-                $nohp = $this->db->escape($this->input->post("nohp", TRUE));
-                $username = $this->db->escape($this->input->post("username", TRUE));
-                $password = $this->db->escape($this->input->post("password", TRUE));
+                $nama = $this->db->escape_str($this->input->post("nama", TRUE));
+                $identitas = $this->db->escape_str($this->input->post("identitas", TRUE));
+                $nohp = $this->db->escape_str($this->input->post("nohp", TRUE));
+                $username = $this->db->escape_str($this->input->post("username", TRUE));
+                $password1 = $this->db->escape_str($this->input->post("password1", TRUE));
+                $password2 = $this->db->escape_str($this->input->post("password2", TRUE));
+                if($nama == ""){
+                  $this->alert->mes("error", "", "Nama wajib diisi...");
+                }else if($identitas == ""){
+                  $this->alert->mes("", "", "Nomor KTP atau SIM wajib diisi");
+                }else if($nohp == ""){
+                  $this->alert->mes("", "", "Nomor hp wajib diisi...");
+                }else if($username == ""){
+                  $this->alert->mes("", "", "Username wajib diisi...");
+                }else if($password1 == ""){
+                  $this->alert->mes("", "", "Password wajib diisi...");
+                }else{
+                  if($password1 == $password2){
+                    $query = $this->db->query("SELECT * FROM user WHERE identitas = '$identitas'");
+                    $query2 = $this->db->query("SELECT * FROM user WHERE username = '$username'");
+                    if($query->num_rows() == 1){
+                      $this->alert->mes("", "", "Nomor identitas ini sudah terdaftar");
+                    }else if($query2->num_rows() == 1){
+                      $this->alert->mes("", "", "Username telah digunakan, harap gunakan username lain...");
+                    }else{
+                      $password = password_hash($password1, PASSWORD_DEFAULT);
+                      $register = $this->db->query("INSERT INTO user(nama, identitas, nohp, username, password, total_donor) VALUES('$nama', '$identitas', '$nohp', '$username', '$password', '0')");
 
-                
+                      if($register){
+                        $this->session->set_userdata("userDD18", $username);
+                        $this->alert->mes("success", "Pendaftaran berhasil", "", 1, base_url("/user"));
+                      }
+                    }
+                  }else{
+                    $this->alert->mes("", "", "Kedua password harus sama...");
+                  }
+                }
               } ?>
             </div>
           </div>

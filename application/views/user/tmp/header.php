@@ -19,6 +19,10 @@
 </head>
 
 <body>
+  <?php
+  $query = $this->db->query("SELECT * FROM user WHERE username = '".$this->session->userdata("userDD18")."'");
+  $data = $query->row();
+  ?>
   <!-- Sidenav -->
   <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
@@ -28,7 +32,7 @@
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" href="./index.html">
-        <img src="<?= base_url(); ?>assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        PATAHLAYANG
       </a>
       <!-- User -->
       <ul class="nav align-items-center d-md-none">
@@ -47,7 +51,7 @@
           <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img alt="Image placeholder" src="<?= base_url(); ?>assets/img/theme/team-1-800x800.jpg">
+                <img alt="Image placeholder" src="<?= base_url(); ?>assets/img/user-full-color.svg">
               </span>
             </div>
           </a>
@@ -78,7 +82,7 @@
           <div class="row">
             <div class="col-6 collapse-brand">
               <a href="<?= base_url(); ?>">
-                <img src="<?= base_url(); ?>assets/img/brand/blue.png">
+                PATAHLAYANG
               </a>
             </div>
             <div class="col-6 collapse-close">
@@ -92,22 +96,22 @@
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>user">
+            <a class="nav-link <?php if($page == 'dashboard'){echo 'active';} ?>" href="<?= base_url(); ?>user">
               <i class="ni ni-tv-2 text-primary"></i> Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>user/profile">
+            <a class="nav-link <?php if($page == 'profile'){echo 'active';} ?>" href="<?= base_url(); ?>user/profile">
               <i class="ni ni-single-02 text-yellow"></i> Profile
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>user/join">
+            <a class="nav-link <?php if($page == 'join'){echo 'active';} ?>" href="<?= base_url(); ?>user/join">
               <i class="ni ni-bullet-list-67 text-red"></i> Join Donor Darah
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url(); ?>user/lokasi">
+            <a class="nav-link <?php if($page == 'lokasi'){echo 'active';} ?>" href="<?= base_url(); ?>user/lokasi">
               <i class="ni ni-pin-3 text-red"></i> Lokasi Donor Darah
             </a>
           </li>
@@ -127,10 +131,10 @@
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="<?= base_url(); ?>assets/img/theme/team-4-800x800.jpg">
+                  <img alt="Image placeholder" src="<?= base_url(); ?>assets/img/user-full-color.svg">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">Jessica Jones</span>
+                  <span class="mb-0 text-sm  font-weight-bold"><?= $data->nama; ?></span>
                 </div>
               </div>
             </a>
