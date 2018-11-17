@@ -28,4 +28,4 @@
 - Peserta harus menempatkan link aplikasi dibagian bawah panduan ini (ditempat yang telah disediakan)
 - Pastikan link aplikasi yang dikirim peserta dapat berfungsi dengan baik
 
-LINK APLIKASI => "Tulis Link Disini"
+LINK APLIKASI => "https://drive.google.com/open?id=1QtLzTHEeX04Z2rGw3rk8PubnghZwWexH"
