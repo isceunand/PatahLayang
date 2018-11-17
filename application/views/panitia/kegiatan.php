@@ -17,6 +17,9 @@ $data = $query->row();
 					<input type="date" name="tanggal" class="form-control" placeholder="Tanggal kegiatan..." value="<?= @$_POST['tanggal']; ?>">
 				</div>
 				<div class="form-group">
+					<input type="text" name="tempat" class="form-control" placeholder="Tempat kegiatan..." value="<?= @$_POST['tempat']; ?>">
+				</div>
+				<div class="form-group">
 					<textarea name="deskripsi" class="form-control" placeholder="Deskripsi kegiatan..."><?= @$_POST["deskripsi"]; ?></textarea>
 				</div>
 				<div class="form-group">
@@ -31,6 +34,7 @@ $data = $query->row();
 				$nama = $this->db->escape_str($this->input->post("nama", TRUE));
 				$tanggal = $this->db->escape_str($this->input->post("tanggal", TRUE));
 				$deskripsi = $this->db->escape_str($this->input->post("deskripsi", TRUE));
+				$tempat = $this->db->escape_str($this->input->post("tempat", TRUE));
 
 				$nama_file = $this->db->escape_str($_FILES["lampiran"]["name"]);
 				$tmp_file  = $_FILES["lampiran"]["tmp_name"];
@@ -47,7 +51,7 @@ $data = $query->row();
 					$this->alert->mes("", "", "Deskripsi kegiatan wajib diisi...");
 				}else{
 					if($ext_file == "pdf" or $ext_file == "PDF"){
-						$update = $this->db->query("INSERT INTO kegiatan(nama, tanggal, deskripsi, panitia, lampiran, kode) VALUES('$nama', '$tanggal', '$deskripsi', $data->id, '$kode2', '$kode')");
+						$update = $this->db->query("INSERT INTO kegiatan(nama, tanggal, $tempat, deskripsi, panitia, lampiran, kode) VALUES('$nama', '$tanggal', '$tempat', '$deskripsi', $data->id, '$kode2', '$kode')");
 						if($update){
 							$upload = move_uploaded_file($tmp_file, "assets/lampiran/$kode2");
 							if($upload){

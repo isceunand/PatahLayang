@@ -36,7 +36,33 @@
 				</table>
 				<ul class="list-group">
 					<li class="list-group-item">
-						
+						<form action="" method="post">
+							<input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $this->security->get_csrf_hash(); ?>">
+							<div class="form-group">
+								<input type="text" name="berat" class="form-control" placeholder="Berat badan">
+							</div>
+							<div class="form-group">
+								<input type="text" name="obat" class="form-control" placeholder="Obat yang dikonsumsi seminggu terakhir">
+							</div>
+							<div class="form-group">
+								<textarea name="keterangan" class="form-control" placeholder="Keterangan kesehatan lainnya"></textarea>
+							</div>
+							<input type="submit" name="kirim" class="btn btn-primary" value="Kirim">
+						</form>
+						<?php
+						if(isset($_POST["kirim"])){
+							$berat= $this->db->escape_str($this->input->post("berat", TRUE));
+							$obat= $this->db->escape_str($this->input->post("obat", TRUE));
+							$keterangan= $this->db->escape_str($this->input->post("keterangan", TRUE));
+							$id_user = $this->db->query("SELECT * FROM user WHERE username = '".$this->session->userdata("userDD18")."'")->row()->id;
+							$insert = $this->db->query("INSERT INTO peserta(id_user, kode_kegiatan, status, berat,obat, keterangan) VALUES('$id_user', '$kode', '0', '$berat', '$obat', '$keterangan')");
+
+							if($insert){
+								$this->alert->mes("success", "Berhasil mendaftar");
+							}
+						} ?>
+					</li>
+				</ul>
 			<?php
 			}else{
 				redirect(base_url("user/join"));
